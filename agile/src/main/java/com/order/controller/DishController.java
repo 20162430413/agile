@@ -24,7 +24,6 @@ public class DishController {
 
 	private final DishCategoryService dishCategoryService;
 	
-
 	@Autowired
 	public DishController(DishService dishService, DishCategoryService dishCategoryService) {
 
