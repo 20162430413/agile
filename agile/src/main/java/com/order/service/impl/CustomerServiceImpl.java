@@ -1,6 +1,7 @@
 package com.order.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -49,6 +50,26 @@ public class CustomerServiceImpl implements CustomerService{
 	}
     
 	@Override
+	public List<Customer> getByParameters(Customer customer) {
+		return customerMapper.selectByParameters(customer);
+	}
+
+	
+	@Override
+	public List<Customer> getByPhone(String phone) {
+		Customer customer = new Customer();
+		customer.setPhone(phone);
+		return getByParameters(customer);
+	}
+
+	@Override
+	public List<Customer> getByStatus(Integer status) {
+		Customer customer = new Customer();
+		customer.setStatus(status);;
+		return getByParameters(customer);
+	}
+
+	@Override
 	public boolean register(String phone, String password) {
 		System.out.println(password + phone);
     	if (phone == null || password == null) {
@@ -66,5 +87,6 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 		return false;
 	}
+	
 
 }

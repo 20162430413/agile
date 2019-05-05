@@ -9,54 +9,7 @@
     <title>系统注册</title>
     <link href="<%=request.getContextPath() %>/foreground/css/login/login.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
     <link href="<%=request.getContextPath() %>/foreground/css/login/demo.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
-    <script type="text/javascript" src="<%=request.getContextPath() %>/foreground/js/jquery1.42.min.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath() %>/foreground/js/jquery.SuperSlide.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath() %>/foreground/js/Validform_v5.3.2_min.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            $("#send-btn").click = function () {
-                $(".i-text").focus(function(){
-                    $(this).addClass('h-light');
-                });
-                $(".i-text").focusout(function(){
-                    $(this).removeClass('h-light');
-                });
-                $("#account").focus(function(){
-                    var username = $(this).val();
-                    if(username=='输入账号'){
-                        $(this).val('');
-                        return false;
-                    }
-                });
-                $("#account").focus(function(){
-                    var username = $(this).val();
-                    if(username==''){
-                        $(this).val('输入账号');
-                        return false;
-                    }
-                });
-                var password;
-                $("#password").focus(function(){
-                    password = $(this).val();
-                    if('请输入密码' === password){
-                        $(this).val('');
-                        return false;
-                    }
-                });
-                alert(password);
-                $("#password2").focus(function() {
-                    var password2 = $(this).val();
-                    if (password2 !== password){
-                        alert("两次密码不一致");
-                        $("#password").focus();
-                        return false;
-                    }
-                });
-                return true;
-            }
-        });
-
-    </script>
+   
 </head>
 <body style="background: #0C0C0C">
 <div class="header">
@@ -71,17 +24,17 @@
 				<div class="fm-item">
                     <label for="logonId" class="form-label">账号：</label>
                     <input type="text" placeholder="输入电话号码" name="account" maxlength="100" id="account" class="i-text" ajaxurl="demo/valid.jsp"  datatype="s6-18" errormsg="用户名至少6个字符,最多18个字符！"  >
-                    <div class="ui-form-explain"></div>
+                    <div class="ui-form-explain"><label id="message" style="color:red;"></label></div>
                 </div>
                 <div class="fm-item">
                     <label for="logonId" class="form-label">密码：</label>
                     <input type="password" name="password" placeholder="请输入密码" maxlength="100" id="password" class="i-text" datatype="*6-16" nullmsg="请输入密码" errormsg="密码范围在6~16位之间！">
-                    <div class="ui-form-explain"></div>
+                    <div class="ui-form-explain"><label id="" style="color:red;"></label></div>
                 </div>
 				<div class="fm-item">
 				    <label for="logonId" class="form-label">重输密码：</label>
 				    <input type="password" name="password2" placeholder="请再次输入密码" maxlength="100" id="password2" class="i-text" datatype="*6-16" nullmsg="请重新输入密码" errormsg="密码范围在6~16位之间！">
-				    <div class="ui-form-explain"></div>
+				    <div class="ui-form-explain"><label id="" style="color:red;"></label></div>
 				</div>
                 <div class="fm-item">
                     <label for="logonId" class="form-label"></label>
@@ -99,7 +52,32 @@
     </div>
     <div class="hd"><ul></ul></div>
 </div>
-<script type="text/javascript">jQuery(".banner").slide({ titCell:".hd ul", mainCell:".bd ul", effect:"fold",  autoPlay:true, autoPage:true, trigger:"click" });</script>
 <div class="banner-shadow"></div>
+
+<script type="text/javascript" src="<%=request.getContextPath() %>/foreground/js/jquery1.42.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/foreground/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/foreground/js/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript">
+var canSubmit = false;
+  $("#account").blur(function(){
+	  $("#message").html("");
+	  $.ajax({
+		  url:"/agile/foreground/customer/phoneIsExist?account=" +$("#account").val(),
+		  success:function(result){		
+			  if(result > 0){
+				  $("#message").html("电话号码已注册");
+				  canSubmit = true;
+			  }
+		  }
+	  })
+  });
+  
+  function formSubmit(){
+  }
+  
+  
+  
+
+</script>
 </body>
 </html>

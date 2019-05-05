@@ -57,7 +57,6 @@ public class ManageController {
 	
 	@RequestMapping(value = "/alldishes.action", method = RequestMethod.GET)
 	public String getAllDishes(Model model) {
-		
 		List<Dish> dishList = dishService.getAll(null);
 		
         model.addAttribute("dishList", dishList);

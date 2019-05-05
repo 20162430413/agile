@@ -37,16 +37,26 @@ public class DishController {
 		this.dishCategoryService = dishCategoryService;
 	}
 
+	/**
+	 * 查询菜品列表
+	 * 
+	 * @param categoryId  菜品分类ID
+	 * @param currentPage 当前页面
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "dishDisplay.action", method = RequestMethod.GET)
-	public String dishDisplay(Integer categoryId,Integer currentPage,Model model,HttpServletRequest request, HttpSession session) {
+	public String dishDisplay(Integer categoryId, Integer currentPage, Model model, HttpServletRequest request,
+			HttpSession session) {
 		List<Dish> dishList = new ArrayList<>();
-		
 		currentPage = (currentPage == null ? 1 : currentPage);
 		System.out.println("currentPage===" + currentPage);
-		Page page = new Page(dishService.countDish(categoryId),currentPage,9);
+		Page page = new Page(dishService.countDish(categoryId), currentPage, 9);
 		page.setPath(WebUtil.getPath(request));
 		dishList = dishService.getDishByCategoryId(categoryId, page);
-		model.addAttribute("page",page);
+		model.addAttribute("page", page);
 		model.addAttribute("categoryId", categoryId == null ? 0 : categoryId);
 		model.addAttribute("dishList", dishList);
 		return "/foreground/dishDisplay";
