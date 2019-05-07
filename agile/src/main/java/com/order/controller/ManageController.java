@@ -57,7 +57,9 @@ public class ManageController {
 	
 	@RequestMapping(value = "/alldishes.action", method = RequestMethod.GET)
 	public String getAllDishes(Model model) {
-		List<Dish> dishList = dishService.getAll(null);
+
+		
+		List<Dish> dishList = dishService.getAll();
 		
         model.addAttribute("dishList", dishList);
         model.addAttribute("pagecount", dishList.size()/10);
